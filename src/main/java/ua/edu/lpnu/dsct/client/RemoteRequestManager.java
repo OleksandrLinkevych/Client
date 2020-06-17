@@ -31,13 +31,13 @@ public class RemoteRequestManager {
     }
 
     public void ping() throws RemoteException {
-        ITask<Integer> task = new PingTask();
+        ITask<Integer> task = new Ping();
         int response = this.send(task);
         logger.info("Server response to PING command: " + response);
     }
 
     public void echo(String text) throws RemoteException {
-        ITask<String> task = new EchoTask(text);
+        ITask<String> task = new Echo(text);
         String response = this.send(task);
         logger.info("Server response to ECHO command: " + response);
     }
@@ -45,7 +45,7 @@ public class RemoteRequestManager {
     public void sort(String inputFilePath, String outputFilePath) throws IOException {
         logger.info("Asking server to sort numbers in '" + inputFilePath + "' file...");
         byte[] input = FileManager.read(inputFilePath);
-        ITask<byte[]> task = new SortTask(input);
+        ITask<byte[]> task = new Sort(input);
         byte[] response = this.send(task);
         FileManager.write(response, outputFilePath);
         logger.info("Numbers are sorted and saved to '" + outputFilePath + "' file.");
@@ -57,7 +57,7 @@ public class RemoteRequestManager {
                     "Make sure min < max.");
         }
 
-        ITask<byte[]> task = new GenerateTask(count, type, min, max);
+        ITask<byte[]> task = new Generate(count, type, min, max);
         logger.info("Asking server to generate " + count + " " + type.name().toLowerCase() + " numbers " +
                 "in range from " + min + " to " + max + "...");
         byte[] response = this.send(task);
